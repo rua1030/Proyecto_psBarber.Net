@@ -1,0 +1,217 @@
+﻿@model WebApplication1.Models.Usuario
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = null;
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+<link href='https://fonts.googleapis.com/css?family=Courgette' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Courgette' rel='stylesheet'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<style>
+    body {
+        background-image: url(img/fondorregistrar.jpg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+
+    .logo-card {
+        width: 40%;
+        height: 40%;
+        margin: 0 auto 20px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .logo {
+        max-width: 5%;
+        max-height: 5%;
+    }
+
+    .brand-text {
+        font-family: 'Courgette';
+        font-size: 100px;
+        font-size: 40px;
+        font-style: italic;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .password-toggle {
+        position: relative;
+    }
+
+        .password-toggle .toggle-icon {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+            .password-toggle .toggle-icon i {
+                font-size: 18px;
+            }
+
+    /* Estilos para el formulario */
+    .form-container {
+        max-width: 500px;
+        margin: 0 auto; /* Para centrar horizontalmente */
+        margin-top: 5%;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.7); /* Fondo semi-transparente */
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Estilos para los botones */
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+</style>
+<body background-image: url(img /fondorregistrar.jpg)>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="form-container">
+                    <div class="card-body">
+                        <img src="~/img/1687297823359 (1).png" alt="Logo" class="logo-card">
+                        <p class="brand-text">PS Barber</p>
+                        <h5 class="card-title">Registrarse</h5>
+                        <form asp-action="Create" onsubmit="return validateForm()">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Nombre" class="control-label"></label>
+                                <input asp-for="Nombre" class="form-control" id="Nombre" required/>
+                                <span asp-validation-for="Nombre" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Clave" class="control-label"></label>
+                                <input asp-for="Clave" class="form-control" id="email" required/>
+                                <span asp-validation-for="Clave" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Correo" class="control-label"></label>
+                                <input asp-for="Correo" class="form-control" id="paasword" required/>
+                                <span asp-validation-for="Correo" class="text-danger"></span>
+                            </div>
+                            <div class="form-group text-center">
+
+                                <button type="submit" class="btn btn-primary">Registrarse</button>
+                                @if (TempData["SuccessMessage"] != null)
+                                {
+                                    <div class="alert alert-success">
+                                        @TempData["SuccessMessage"]
+                                    </div>
+                                }
+                            </div>
+                        </form>
+                        
+                        <div class="text-center">
+                            <a asp-controller="Acceso" asp-action="Index">Volver al inicio de sesión</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script>
+        function validateForm() {
+            var emailInput = document.getElementById("email");
+            var confirmEmailInput = document.getElementById("confirmEmail");
+            var passwordInput = document.getElementById("password");
+            var confirmPasswordInput = document.getElementById("confirmPassword");
+            var emailError = document.getElementById("emailError");
+            var confirmEmailError = document.getElementById("confirmEmailError");
+            var passwordError = document.getElementById("passwordError");
+            var confirmPasswordError = document.getElementById("confirmPasswordError");
+            var email = emailInput.value.trim();
+            var confirmEmail = confirmEmailInput.value.trim();
+            var password = passwordInput.value.trim();
+            var confirmPassword = confirmPasswordInput.value.trim();
+
+            // Validar campo de correo electrónico
+            if (email === "") {
+                emailError.textContent = "Por favor, ingrese su correo electrónico.";
+                emailInput.focus();
+                return false;
+            } else if (!isValidEmail(email)) {
+                emailError.textContent = "Por favor, ingrese un correo electrónico válido.";
+                emailInput.focus();
+                return false;
+            }
+
+            // Validar campo de confirmación de correo electrónico
+            if (confirmEmail === "") {
+                confirmEmailError.textContent = "Por favor, confirme su correo electrónico.";
+                confirmEmailInput.focus();
+                return false;
+            } else if (email !== confirmEmail) {
+                confirmEmailError.textContent = "Los correos electrónicos no coinciden.";
+                confirmEmailInput.focus();
+                return false;
+            }
+
+            // Validar campo de contraseña
+            if (password === "") {
+                passwordError.textContent = "Por favor, ingrese su contraseña.";
+                passwordInput.focus();
+                return false;
+            }
+
+            // Validar campo de confirmación de contraseña
+            if (confirmPassword === "") {
+                confirmPasswordError.textContent = "Por favor, confirme su contraseña.";
+                confirmPasswordInput.focus();
+                return false;
+            } else if (password !== confirmPassword) {
+                confirmPasswordError.textContent = "Las contraseñas no coinciden.";
+                confirmPasswordInput.focus();
+                return false;
+            }
+
+            // Mostrar la alerta de registro exitoso
+            var registroExitoso = document.getElementById("registroExitoso");
+            registroExitoso.style.display = "block";
+
+            // Evitar que el formulario se envíe
+            return false;
+        }
+
+
+        function isValidEmail(email) {
+            // Expresión regular para validar el formato de correo electrónico
+            //var emailPattern = /^[^\s]+[^\s]+\.[^\s]+$/;
+            return emailPattern.test(email);
+        }
+
+        function togglePasswordVisibility(inputId) {
+            var passwordInput = document.getElementById(inputId);
+            var passwordToggleIcon = document.getElementById(inputId + "ToggleIcon");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                passwordToggleIcon.classList.remove("far", "fa-eye");
+                passwordToggleIcon.classList.add("far", "fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                passwordToggleIcon.classList.remove("far", "fa-eye-slash");
+                passwordToggleIcon.classList.add("far", "fa-eye");
+            }
+        }
+    </script>
+</body>

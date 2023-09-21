@@ -1,0 +1,197 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="~/css/site.css" rel="stylesheet">
+    <title>@ViewData["Title"] - WebApplication1</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+
+    <!-- Carga de archivos JavaScript -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/validar.js" asp-append-version="true"></script>
+    <script src="~/js/clbt.js" asp-append-version="true"></script>
+    <link href="ruta/a/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Recursos externos (Bootstrap, FontAwesome, etc.) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/926a7976d2.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <link href="~/css/site.css" rel="stylesheet">
+    <header id="header" class="header fixed-top d-flex align-items-center">
+
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="index.html" class="logo d-flex align-items-center">
+                <img width="20%" height="20%" src="~/img/1687297823359 (1).png" alt="">
+                <span class="d-none d-lg-block">Ps_barber</span>
+            </a>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+        </div><!-- End Logo -->
+
+        <div class="search-bar">
+            <form class="search-form d-flex align-items-center" method="POST" action="#">
+                <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+                <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+            </form>
+        </div><!-- End Search Bar -->
+        @Html.Partial("_nav")
+        <!-- End Icons Navigation -->
+    </header>
+    @*@Html.Partial("_Nav")*@
+    <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+            @if (User.IsInRole("Administrador") || User.IsInRole("Cliente") || User.IsInRole("Empleado"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="index">
+                        <img width="10%" height="10%" src="~/img/ganancia.png" alt="">
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <!-- End Dashboard Nav -->
+            }
+            @if (User.IsInRole("Administrador"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                        <img width="10%" height="10%" src="~/img/barbero.png" alt=""><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a asp-area="" asp-controller="UsuariosAdmin" asp-action="Create">
+                                <i class="bi bi-circle"></i><span>Agregar usuarios</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="UsuariosAdmin" asp-action="Index">
+                                <i class="bi bi-circle"></i><span>Listar usuarios</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- End Components Nav -->
+            }
+            @if (User.IsInRole("Administrador") || User.IsInRole("Empleado"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                        <img width="10%" height="10%" src="~/img/comentarios-de-los-clientes.png" alt=""><span>Clientes</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            @*acomodar aca para la vista de crear clientes*@
+                            <a asp-area="" asp-controller="Cliente" asp-action="Create">
+                                <i class="bi bi-circle"></i><span>Agregar clientes</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Cliente" asp-action="Index">
+                                <i class="bi bi-circle"></i><span>listar clientes</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- End Forms Nav -->
+            }
+            @if (User.IsInRole("Administrador"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+                        <img width="10%" height="10%" src="~/img/vale-regalo.png" alt=""><span>Ventas</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+                        <li>
+                            <a asp-controller="Ventas" asp-action="Create">
+                                <i class="bi bi-circle"></i><span>Agregar ventas</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Ventas" asp-action="Index">
+                                <i class="bi bi-circle"></i><span>Listar ventas</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- End Tables Nav -->
+            }
+            @if (User.IsInRole("Administrador") || User.IsInRole("Empleado") || User.IsInRole("Cliente"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+                        <img width="10%" height="10%" src="~/img/calendario.png" alt=""><span>Agenda</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+                        <li>
+                            <a href="/agenda/create">
+                                <i class="bi bi-circle"></i><span>Agregar agenda</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/agenda">
+                                <i class="bi bi-circle"></i><span>Listar agenda</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- End Charts Nav -->
+            }
+            @if (User.IsInRole("Administrador"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+                        <img width="10%" height="10%" src="~/img/management.png" alt=""><span>Rol</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a asp-controller="Rols" asp-action="create">
+                                <i class="bi bi-circle"></i><span >Agregar rol</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Rols" asp-action="Index">
+                                <i class="bi bi-circle"></i><span>Listar rol</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+            <!-- End Icons Nav -->
+        </ul>
+    </aside>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    @Html.Partial("_footer")
+
+    <script src="~/js/site.js"></script>
+
+    <script src="~/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/chart.js/chart.umd.js"></script>
+    <script src="~/vendor/echarts/echarts.min.js"></script>
+    <script src="~/vendor/quill/quill.min.js"></script>
+    <script src="~/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="~/vendor/tinymce/tinymce.min.js"></script>
+    <script src="~/vendor/php-email-form/validate.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/926a7976d2.js" crossorigin="anonymous" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

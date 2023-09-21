@@ -1,0 +1,48 @@
+﻿@model IEnumerable<WebApplication1.Models.Detalle_Venta>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.subtotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_Servicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Venta)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.subtotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_Servicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Venta.Id_Venta)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id_Detalle_Venta">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id_Detalle_Venta">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id_Detalle_Venta">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
